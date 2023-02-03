@@ -1,4 +1,4 @@
-package gr.hua.ds.fanclubrequestsystem.Service;
+package gr.hua.ds.fanclubrequestsystem.service;
 
 import gr.hua.ds.fanclubrequestsystem.entity.*;
 import gr.hua.ds.fanclubrequestsystem.repository.*;
@@ -51,24 +51,29 @@ public class FanclubService {
         fanRepository.save(fan);
     }
 
+    public Fan getFanByID(int fanID) {
+        return fanRepository.findById(fanID).get();
+    }
+
     @Transactional
-    public void updateFan(int fanID, String firstName, String lastName, int AFM) {
-        Fan fan = fanRepository.findById(fanID).orElseThrow(() -> new IllegalStateException("Fan with ID: " + fanID + " does not exist"));
+    public void updateFan(int fanID, Fan fan) {
+        Fan existingFan = fanRepository.findById(fanID).orElseThrow(() -> new IllegalStateException("Fan with ID: " + fanID + " does not exist"));
 
         //Check for valid inputs, if pass change attributes value
-        if(firstName!=null && firstName.length()>0 && !Objects.equals(fan.getFirstName(), firstName)) {
-            fan.setFirstName(firstName);
+        //Fan first name
+        if(fan.getFirstName()!=null && fan.getFirstName().length()>0 && !Objects.equals(existingFan.getFirstName(), fan.getFirstName())) {
+            existingFan.setFirstName(fan.getFirstName());
         }
 
-        if(lastName!=null && lastName.length()>0 && !Objects.equals(fan.getLastName(), lastName)) {
-            fan.setLastName(lastName);
+        //Fan last name
+        if(fan.getLastName()!=null && fan.getLastName().length()>0 && !Objects.equals(existingFan.getLastName(), fan.getLastName())) {
+            existingFan.setLastName(fan.getLastName());
         }
 
-        int length = String.valueOf(AFM).length();
-        if(length == 9){
-            fan.setAFM(AFM);
-        }
+        //Fan Birth Date
+        existingFan.setBirthDate(fan.getBirthDate());
 
+        fanRepository.save(existingFan);
     }
 
     public void deleteFan(int fanID) {
@@ -90,8 +95,8 @@ public class FanclubService {
         return elasRequestsList;
     }
 
-    public void addNewElasRequest(RequestELAS requestELAS, int ElasID) {
-        Optional<RequestELAS> requestElasOptional = requestELASRepository.findRequestELASByID(requestELAS.getID());
+    public void addNewElasRequest(RequestELAS elasRequest) {
+        Optional<RequestELAS> requestElasOptional = requestELASRepository.findRequestELASByID(elasRequest.getID());
         if(requestElasOptional.isPresent()) {
             throw new IllegalStateException("ID taken");
         }
@@ -99,21 +104,22 @@ public class FanclubService {
         //Find the fanclub that is sending the request
         String fanclubName = SecurityContextHolder.getContext().getAuthentication().getName();
         Fanclub fanclub = fanclubRepository.findFanclubByUsername(fanclubName);
-        requestELAS.setFanclub(fanclub);
+        elasRequest.setFanclub(fanclub);
 
         //Find ELAS user to send the request
-        ELAS ELAS = ELASRepository.findElasByID(ElasID).orElseThrow(() -> new IllegalStateException("ELAS with ID: " + ElasID + " does not exist"));
-        requestELAS.setELAS(ELAS);
+        int elasID = Integer.valueOf(elasRequest.getState());
+        ELAS ELAS = ELASRepository.findElasByID(elasID).orElseThrow(() -> new IllegalStateException("ELAS with ID: " + elasID + " does not exist"));
+        elasRequest.setELAS(ELAS);
 
         //Set request's date as the current date
         Date date = new Date();
-        requestELAS.setDate(date);
+        elasRequest.setDate(date);
 
         //Request is shown as Pending
-        requestELAS.setState("Pending");
+        elasRequest.setState("Pending");
 
         //Request created
-        requestELASRepository.save(requestELAS);
+        requestELASRepository.save(elasRequest);
     }
 
     public List<RequestGGA> getGGARequests() {

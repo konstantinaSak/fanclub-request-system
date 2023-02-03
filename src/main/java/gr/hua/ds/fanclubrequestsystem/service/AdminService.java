@@ -1,4 +1,4 @@
-package gr.hua.ds.fanclubrequestsystem.Service;
+package gr.hua.ds.fanclubrequestsystem.service;
 
 import gr.hua.ds.fanclubrequestsystem.entity.*;
 import gr.hua.ds.fanclubrequestsystem.repository.*;

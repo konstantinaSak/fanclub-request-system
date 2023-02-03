@@ -19,8 +19,7 @@ public class Fan {
     private String lastName;
 
     @Column(name = "birth_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date birthDate;
+    private String birthDate;
 
     @Column(name = "AFM", nullable = false)
     private int AFM;
@@ -32,7 +31,7 @@ public class Fan {
     public Fan() {
     }
 
-    public Fan(int ID, String firstName, String lastName, Date birthDate, int AFM, Fanclub fanclub) {
+    public Fan(int ID, String firstName, String lastName, String birthDate, int AFM, Fanclub fanclub) {
         this.ID = ID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -65,11 +64,11 @@ public class Fan {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -98,7 +97,7 @@ public class Fan {
                 ", birthDate=" + birthDate +
                 ", AFM=" + AFM +
                 ", fanclub=" + fanclub +
-                '}' + "\r\n";
+                '}';
     }
 
 }

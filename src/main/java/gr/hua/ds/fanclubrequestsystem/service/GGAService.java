@@ -1,4 +1,4 @@
-package gr.hua.ds.fanclubrequestsystem.Service;
+package gr.hua.ds.fanclubrequestsystem.service;
 
 import gr.hua.ds.fanclubrequestsystem.PDFexporter.GGARequestPDFExporter;
 import gr.hua.ds.fanclubrequestsystem.entity.GGA;
@@ -51,6 +51,10 @@ public class GGAService {
 
         //Return list with only Pending requests
         return ggaRequestsList;
+    }
+
+    public RequestGGA getGGARequestByID(int ggaRequest) {
+        return requestGGARepository.findById(ggaRequest).get();
     }
 
     @Transactional

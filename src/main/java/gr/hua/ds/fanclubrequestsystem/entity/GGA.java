@@ -81,7 +81,7 @@ public class GGA {
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                '}' + "\r\n";
+                '}';
     }
 
 }

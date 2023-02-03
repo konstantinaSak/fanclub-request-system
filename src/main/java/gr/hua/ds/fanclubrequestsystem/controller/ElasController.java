@@ -1,14 +1,15 @@
 package gr.hua.ds.fanclubrequestsystem.controller;
 
 import com.lowagie.text.DocumentException;
-import gr.hua.ds.fanclubrequestsystem.Service.ElasService;
+import gr.hua.ds.fanclubrequestsystem.service.ElasService;
 import gr.hua.ds.fanclubrequestsystem.entity.RequestELAS;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/elas")
@@ -22,18 +23,44 @@ public class ElasController {
     }
 
     @GetMapping("/requests")
-    public List<RequestELAS> getElasRequests() {
-        return elasService.getElasRequests();
+    public ModelAndView getElasRequests(Model model) {
+        model.addAttribute("elas", elasService.getElasRequests());
+
+        ModelAndView elasMAV = new ModelAndView();
+        elasMAV.setViewName("elas");
+        return elasMAV;
     }
 
-    @PutMapping("/requests/{requestID}/approved")
-    public void approvedRequest(HttpServletResponse response, @PathVariable("requestID") int requestID) throws DocumentException, IOException {
-        elasService.approvedRequest(response, requestID);
+    @GetMapping("/requests/approve/{requestID}")
+    public ModelAndView downloadRequestPage(@PathVariable("requestID") int requestID, Model model) {
+        model.addAttribute("request", elasService.getElasRequestByID(requestID));
+
+        ModelAndView approveMAV = new ModelAndView();
+        approveMAV.setViewName("elas_download_request");
+        return approveMAV;
     }
 
-    @PutMapping(path = "/requests/{requestID}/declined")
-    public void declinedRequest(@PathVariable("requestID") int requestID) {
+    @PostMapping("/requests/approve/{requestID}")
+    public void approveRequest(HttpServletResponse response, @PathVariable("requestID") int requestID, @ModelAttribute("request") RequestELAS request) throws DocumentException, IOException {
+        elasService.approveRequest(response, requestID);
+    }
+
+    @GetMapping("/requests/reject/{requestID}")
+    public ModelAndView rejectRequestPage(@PathVariable("requestID") int requestID, Model model) {
+        model.addAttribute("request", elasService.getElasRequestByID(requestID));
+
+        ModelAndView rejectMAV = new ModelAndView();
+        rejectMAV.setViewName("elas_reject_request");
+        return rejectMAV;
+    }
+
+    @PostMapping(path = "/requests/reject/{requestID}")
+    public ModelAndView rejectRequest(@PathVariable("requestID") int requestID) {
         elasService.declinedRequest(requestID);
+
+        ModelAndView requestsMAV = new ModelAndView();
+        requestsMAV.setViewName("redirect:/api/elas/requests");
+        return requestsMAV;
     }
 
 }

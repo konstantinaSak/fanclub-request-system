@@ -1,10 +1,12 @@
 package gr.hua.ds.fanclubrequestsystem.controller;
 
 import com.lowagie.text.DocumentException;
-import gr.hua.ds.fanclubrequestsystem.Service.GGAService;
+import gr.hua.ds.fanclubrequestsystem.service.GGAService;
 import gr.hua.ds.fanclubrequestsystem.entity.RequestGGA;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,18 +24,44 @@ public class GGAController {
     }
 
     @GetMapping("/requests")
-    public List<RequestGGA> getGGARequests() {
-        return ggaService.getGGARequests();
+    public ModelAndView getGGARequests(Model model) {
+        model.addAttribute("gga", ggaService.getGGARequests());
+
+        ModelAndView ggaMAV = new ModelAndView();
+        ggaMAV.setViewName("gga");
+        return ggaMAV;
     }
 
-    @PutMapping("/requests/{requestID}/approved")
+    @GetMapping("/requests/approve/{requestID}")
+    public ModelAndView downloadRequestPage(@PathVariable("requestID") int requestID, Model model) {
+        model.addAttribute("request", ggaService.getGGARequestByID(requestID));
+
+        ModelAndView approveMAV = new ModelAndView();
+        approveMAV.setViewName("gga_download_request");
+        return approveMAV;
+    }
+
+    @PostMapping("/requests/approve/{requestID}")
     public void approvedRequest(HttpServletResponse response, @PathVariable("requestID") int requestID) throws DocumentException, IOException {
         ggaService.approvedRequest(response, requestID);
     }
 
-    @PutMapping(path = "/requests/{requestID}/declined")
-    public void declinedRequest(@PathVariable("requestID") int requestID) {
+    @GetMapping("/requests/reject/{requestID}")
+    public ModelAndView rejectRequestPage(@PathVariable("requestID") int requestID, Model model) {
+        model.addAttribute("request", ggaService.getGGARequestByID(requestID));
+
+        ModelAndView rejectMAV = new ModelAndView();
+        rejectMAV.setViewName("gga_reject_request");
+        return rejectMAV;
+    }
+
+    @PostMapping(path = "/requests/reject/{requestID}")
+    public ModelAndView rejectRequest(@PathVariable("requestID") int requestID) {
         ggaService.declinedRequest(requestID);
+
+        ModelAndView requestsMAV = new ModelAndView();
+        requestsMAV.setViewName("redirect:/api/gga/requests");
+        return requestsMAV;
     }
 
 }

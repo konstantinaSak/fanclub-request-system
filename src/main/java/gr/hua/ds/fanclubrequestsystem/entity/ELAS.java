@@ -95,7 +95,7 @@ public class ELAS {
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                '}' + "\r\n";
+                '}';
     }
 
 }

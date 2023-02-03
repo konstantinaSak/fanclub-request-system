@@ -42,7 +42,7 @@ public class Authorities {
         return "Authorities{" +
                 "username='" + username + '\'' +
                 ", authority='" + authority + '\'' +
-                '}' + "\r\n";
+                '}';
     }
 
 }

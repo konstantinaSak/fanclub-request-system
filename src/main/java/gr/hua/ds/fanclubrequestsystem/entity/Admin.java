@@ -56,7 +56,7 @@ public class Admin {
                 "ID=" + ID +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                '}' + "\r\n";
+                '}';
     }
 
 }

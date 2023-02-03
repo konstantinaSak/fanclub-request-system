@@ -1,4 +1,4 @@
-package gr.hua.ds.fanclubrequestsystem.Service;
+package gr.hua.ds.fanclubrequestsystem.service;
 
 import gr.hua.ds.fanclubrequestsystem.PDFexporter.ElasRequestPDFExporter;
 import gr.hua.ds.fanclubrequestsystem.entity.ELAS;
@@ -51,8 +51,12 @@ public class ElasService {
         return elasRequestsList;
     }
 
+    public RequestELAS getElasRequestByID(int elasRequest) {
+        return requestElasRepository.findById(elasRequest).get();
+    }
+
     @Transactional
-    public void approvedRequest(HttpServletResponse response, int requestID) throws IOException {
+    public void approveRequest(HttpServletResponse response, int requestID) throws IOException {
 
         //Check if ELAS request exists
         boolean exists = requestElasRepository.existsById(requestID);

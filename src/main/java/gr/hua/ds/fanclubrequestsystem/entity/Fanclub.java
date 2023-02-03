@@ -34,13 +34,12 @@ public class Fanclub {
     private String email;
 
     @Column(name = "date_foundation", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date dateFoundation;
+    private String dateFoundation;
 
     public Fanclub() {
     }
 
-    public Fanclub(int ID, String name, String username, String password, String leader, String sportsClub, String address, String email, Date dateFoundation) {
+    public Fanclub(int ID, String name, String username, String password, String leader, String sportsClub, String address, String email, String dateFoundation) {
         this.ID = ID;
         this.name = name;
         this.username = username;
@@ -116,11 +115,11 @@ public class Fanclub {
         this.email = email;
     }
 
-    public Date getDateFoundation() {
+    public String getDateFoundation() {
         return dateFoundation;
     }
 
-    public void setDateFoundation(Date dateFoundation) {
+    public void setDateFoundation(String dateFoundation) {
         this.dateFoundation = dateFoundation;
     }
 
@@ -136,7 +135,7 @@ public class Fanclub {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", dateFoundation=" + dateFoundation +
-                '}' + "\r\n";
+                '}';
     }
 
 }

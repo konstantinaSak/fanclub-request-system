@@ -23,7 +23,7 @@ CREATE TABLE `fanclub` (
 			`sports_club` varchar(100) DEFAULT NULL,
 			`address` varchar(100) DEFAULT NULL,
 			`email` varchar(45) DEFAULT NULL,
-			`date_foundation` date NOT NULL,
+			`date_foundation` varchar(11) NOT NULL,
 			PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -39,7 +39,7 @@ CREATE TABLE `fan` (
 			`ID` int(11) NOT NULL AUTO_INCREMENT,
 			`first_name` varchar(45) DEFAULT NULL,
                        `last_name` varchar(45) DEFAULT NULL,
-                       `birth_date` date NOT NULL,
+                       `birth_date` varchar(11) NOT NULL,
 			`AFM` int(9) NOT NULL,
 			`fanclub_ID` int(11) NOT NULL,
 			PRIMARY KEY (`ID`),
