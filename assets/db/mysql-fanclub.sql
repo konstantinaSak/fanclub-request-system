@@ -129,7 +129,8 @@ CREATE TABLE IF NOT EXISTS `request_gga` (
 INSERT INTO `request_gga`(`date`, `text`, `state`, `fanclub_ID`, `GGA_ID`) VALUES
 ('2023-01-09','From PANATHINAIKOS Fan Club to GGA','Pending',2,771),
 ('2022-12-28','From AEK Fan Club to GGA','Pending',3,771),
-('2023-01-06','From PAOK Fan Club to GGA','Pending',4,771);
+('2023-01-06','From PAOK Fan Club to GGA','Pending',4,771),
+('2023-01-15','From OSFP Fan Club to GGA','Pending',1,771);
 
 
 
